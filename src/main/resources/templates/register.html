@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/reg.css">
+    <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
+</head>
+<body>
+<div id="ajax-hook"></div>
+<div class="wrap">
+    <div class="wpn">
+        <div class="form-data pos">
+            <div class="login-icon" style="align-content: center">
+
+            </div>
+
+            <form action="">
+                <div class="form1">
+                    <p class="p-input pos">
+                        <label for="phone" class="sr-only">手机号</label>
+                        <input type="text" id="phone" name="phone" placeholder="手机号" required autofocuso>
+                    </p>
+                    <p class="p-input pos">
+                        <label for="password" class="sr-only">请输入密码</label>
+                        <input type="password" id="password" name="password" required placeholder="请输入密码">
+                    </p>
+                    <p class="p-input pos">
+                        <label for="username" class="sr-only">真实姓名</label>
+                        <input type="text" id="username" name="username" required placeholder="真实姓名">
+                    </p>
+                    <p class="p-input pos">
+                        <label for="destination" class="sr-only">收货地址</label>
+                        <input type="text" id="destination" name="destination" required placeholder="收货地址">
+                    </p>
+                    <p class="p-input pos">
+                        <label for="points" class="sr-only">积分</label>
+                        <input type="text" id="points" name="points" value="0">
+                    </p>
+                </div>
+                <button class="lang-btn btn-block btn-primary log-btn" type="submit">注册</button>
+                <button class="lang-btn btn-block btn-primary log-btn" type="reset">取消</button>
+            </form>
+
+            <p class="right">Powered by © 2018</p>
+        </div>
+    </div>
+</div>
+<script src="../js/agree.js"></script>
+<script src="../js/login.js"></script>
+</body>
+</html>
