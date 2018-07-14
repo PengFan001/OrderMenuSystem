@@ -12,9 +12,12 @@
     <!-- Custom styles for this template -->
     <!--<link href="dashboard.css" rel="stylesheet">-->
     <link href="../css/layout.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+
 </head>
+
 
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -22,7 +25,7 @@
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">安全登出</a>
+            <a class="nav-link" href="login">安全登出</a>
         </li>
     </ul>
 </nav>
@@ -30,42 +33,64 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
+            <div class="sidebar-sticky nav">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active"  href="javascript:;" onclick="loadHTML('welcome')">
                             <span data-feather="home"></span>
-                            餐品查询 <span class="sr-only"></span>
+                            所有菜品
+                            <span class="sr-only"></span>
                         </a>
+                        <ul>
+                            <li>
+                                <a href="javascript:;" onclick="loadHTML('meat')">
+                                    <b class="sidebar-icon"></b>
+                                    <span class="text-normal">荤菜</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="smsInfo.html">
+                                    <b class="sidebar-icon"></b>
+                                    <span class="text-normal">素菜</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="webSet.html">
+                                    <b class="sidebar-icon"></b>
+                                    <span class="text-normal">饮料</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="webSet.html">
+                                    <b class="sidebar-icon"></b>
+                                    <span class="text-normal">面食</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="webSet.html">
+                                    <b class="sidebar-icon"></b>
+                                    <span class="text-normal">主食</span>
+                                </a>
+                            </li>
+                        </ul>
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="javascript:;" onclick="loadHTML('form')">
                             <span data-feather="file"></span>
                             订单管理
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="javascript:;" onclick="loadHTML('shopcart')">
                             <span data-feather="shopping-cart"></span>
                             购物车
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('login')">
+                        <a class="nav-link" href="javascript:;" onclick="loadHTML('information')">
                             <span data-feather="users"></span>
-                            登录
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('register')">
-                            <span data-feather="bar-chart-2"></span>
-                            注册
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers"></span>
-                            修改个人信息
+                            个人信息
                         </a>
                     </li>
                 </ul>
@@ -85,8 +110,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></link>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"></script>')</script>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 
 <!-- Icons -->
@@ -96,27 +120,35 @@
 </script>
 
 <script>
-    function loadHTML(url) {
-        var xmlHttp;
-        if (window.XMLHttpRequest)
-        {
-            xmlHttp=new XMLHttpRequest();
-        }
-        else
-        {
-            xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlHttp.onreadystatechange=function()
-        {
-            if (xmlHttp.readyState==4 && xmlHttp.status==200)
-            {
-                document.getElementById("myContent").innerHTML=xmlHttp.responseText;
-            }
-        }
-        xmlHttp.open("GET",url,true);
-        xmlHttp.send();
 
-    }
+    function loadHTML(url) {
+        $(function () {
+            $.get(url, function (data) {
+                $('#myContent').html(data);
+            });
+        })
+
+        //此方法刷新界面无法加载script中的内容
+        // var xmlHttp;
+        // if (window.XMLHttpRequest)
+        // {
+        //     xmlHttp=new XMLHttpRequest();
+        // }
+        // else
+        // {
+        //     xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+        // }
+        // xmlHttp.onreadystatechange=function()
+        // {
+        //     if (xmlHttp.readyState==4 && xmlHttp.status==200)
+        //     {
+        //         document.getElementById("myContent").innerHTML=xmlHttp.responseText;
+        //     }
+        // }
+        // xmlHttp.open("GET",url,true);
+        // xmlHttp.send();
+    };
+
 </script>
 </body>
 </html>

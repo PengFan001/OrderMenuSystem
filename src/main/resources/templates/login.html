@@ -21,21 +21,21 @@
 
             </div>
 
-            <form action="">
+            <form action="/menu/sign_in">
                 <div class="form1">
                     <p class="p-input pos">
-                        <label for="phone" class="sr-only">手机号</label>
-                        <input type="text" id="phone" placeholder="手机号" required autofocuso>
-                        <span class="tel-warn num-err hide"><em>账号或密码错误，请重新输入</em><i class="icon-warn"></i></span>
+                        <input type="text" name="phone" id="phone" placeholder="手机号" required autofocuso>
                     </p>
                     <p class="p-input pos">
-                        <label for="password" class="sr-only">请输入密码</label>
-                        <input type="password" id="password" required placeholder="请输入密码">
-                        <span class="tel-warn pass-err hide"><em>账号或密码错误，请重新输入</em><i class="icon-warn"></i></span>
+                        <input type="password" id="password" name="password" required placeholder="请输入密码">
                     </p>
                 </div>
                 <button class="lang-btn btn-block btn-primary log-btn" type="submit">登录</button>
             </form>
+            <div class="r-forget cl">
+                <a href="register" class="z">账号注册</a>
+                <a href="./getpass.html" class="y">忘记密码</a>
+            </div>
 
             <div class="third-party">
                 <a href="#" class="log-qq icon-qq-round"></a>

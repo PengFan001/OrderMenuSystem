@@ -1,6 +1,5 @@
 $(function(){
     var tab = 'account_number';
-    // 閫夐」鍗″垏鎹�
     $(".account_number").click(function () {
         $('.tel-warn').addClass('hide');
         tab = $(this).attr('class').split(' ')[0];
@@ -10,7 +9,6 @@ $(function(){
         $(".form2").addClass("hide");
         $(".form1").removeClass("hide");
     });
-    // 閫夐」鍗″垏鎹�
     $(".message").click(function () {
         $('.tel-warn').addClass('hide');
         tab = $(this).attr('class').split(' ')[0];
@@ -47,7 +45,6 @@ $(function(){
         checkBtn();
     });
 
-    // 鎸夐挳鏄惁鍙偣鍑�
     function checkBtn()
     {
         $(".log-btn").off('click');
@@ -104,10 +101,8 @@ $(function(){
 
     function checkCode(code){
         if (code == '') {
-            // $('.tel-warn').removeClass('hide').text('璇疯緭鍏ラ獙璇佺爜');
             return false;
         } else {
-            // $('.tel-warn').addClass('hide');
             return true;
         }
     }
@@ -120,7 +115,6 @@ $(function(){
         }
         var param = /^1[34578]\d{9}$/;
         if (!param.test(phone)) {
-            // globalTip({'msg':'鎵嬫満鍙蜂笉鍚堟硶锛岃閲嶆柊杈撳叆','setTime':3});
             $('.num2-err').removeClass('hide');
             $('.num2-err').text('鎵嬫満鍙蜂笉鍚堟硶锛岃閲嶆柊杈撳叆');
             return false;
@@ -134,13 +128,9 @@ $(function(){
             success:function(data){
                 if (data.code == '0') {
                     $('.num2-err').addClass('hide');
-                    // console.log('aa');
-                    // return true;
                 } else {
                     $('.num2-err').removeClass('hide').text(data.msg);
-                    // console.log('bb');
                     status = false;
-                    // return false;
                 }
             },
             error:function(){
@@ -161,7 +151,6 @@ $(function(){
         }
     }
 
-    // 鐧诲綍鐐瑰嚮浜嬩欢
     function sendBtn(){
         if (tab == 'account_number') {
             $(".log-btn").click(function(){
@@ -185,7 +174,6 @@ $(function(){
                         data: ldata,
                         success:function(data){
                             if (data.code == '0') {
-                                // globalTip({'msg':'鐧诲綍鎴愬姛!','setTime':3,'jump':true,'URL':'http://www.ui.cn'});
                                 globalTip(data.msg);
                             } else if(data.code == '2') {
                                 $(".log-btn").off('click').addClass("off");
@@ -234,7 +222,6 @@ $(function(){
                         data: {phone:phone,code:pcode},
                         success:function(data){
                             if (data.code == '0') {
-                                // globalTip({'msg':'鐧诲綍鎴愬姛!','setTime':3,'jump':true,'URL':'http://www.ui.cn'});
                                 globalTip(data.msg);
                             } else if(data.code == '1') {
                                 $(".log-btn").off('click').addClass("off");
@@ -252,14 +239,11 @@ $(function(){
                     });
                 } else {
                     $(".log-btn").off('click').addClass("off");
-                    // $('.tel-warn').removeClass('hide').text('鐧诲綍澶辫触');
                     return false;
                 }
             });
         }
     }
-
-    // 鐧诲綍鐨勫洖杞︿簨浠�
     $(window).keydown(function(event) {
         if (event.keyCode == 13) {
             $('.log-btn').trigger('click');

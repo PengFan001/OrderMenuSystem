@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Information</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+
+</head>
+<body>
+    <div id="Info" v-cloak class="table">
+        <div>
+            <table border="2" width="100%" style="text-align: center">
+
+                <tr>
+                    <td rowspan="9"><div align="center"><img id="pic_face"  height="160" width="120" style="padding:2px 2px 5px; border:1px #ddd solid;"></div>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>姓名</td>
+                    <td>{{user.username}}</td>
+                    <td>手机号</td>
+                    <td>{{user.phone}}</td>
+                </tr>
+
+                <tr>
+                    <td>收货地址</td>
+                    <td>{{user.destination}}</td>
+                    <td>积分</td>
+                    <td>{{user.points}}</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <script>
+        console.log("start");
+        $.get("/menu/getInformation", function (data) {
+
+            console.log(data);
+
+            var app = new Vue({
+                el : '#Info',
+                data : {
+                    user : data,
+                }
+            })
+        });
+    </script>
+
+</body>
+</html>
