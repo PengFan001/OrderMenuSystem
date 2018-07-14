@@ -36,10 +36,10 @@
             <div class="sidebar-sticky nav">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active"  href="javascript:;" onclick="loadHTML('welcome')">
+                        <a class="nav-link active"  href="javascript:loadHTML('welcome');">
                             <span data-feather="home"></span>
                             所有菜品
-                            <span class="sr-only"></span>
+                            <span class="text-normal"></span>
                         </a>
                         <ul>
                             <li>
@@ -49,25 +49,25 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="smsInfo.html">
+                                <a href="javascript:;" onclick="loadHTML('vegetable')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">素菜</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="webSet.html">
+                                <a href="javascript:;" onclick="loadHTML('drink')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">饮料</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="webSet.html">
+                                <a href="javascript:;" onclick="loadHTML('noodle')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">面食</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="webSet.html">
+                                <a href="javascript:;" onclick="loadHTML('rice')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">主食</span>
                                 </a>
@@ -99,8 +99,8 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             </div>
-            <div class="content" id="myContent">
-             //用来显示内容的地方
+            <div class="content" id="myContent" onloadstart="loadHTML('welcome')">
+
             </div>
         </main>
 
@@ -121,13 +121,16 @@
 
 <script>
 
+    $(document).ready(function(){
+        $('#myContent').load("/menu/welcome");
+    });
+
     function loadHTML(url) {
         $(function () {
             $.get(url, function (data) {
                 $('#myContent').html(data);
             });
         })
-
         //此方法刷新界面无法加载script中的内容
         // var xmlHttp;
         // if (window.XMLHttpRequest)

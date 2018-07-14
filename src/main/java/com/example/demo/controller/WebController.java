@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entities.Food;
+import com.example.demo.entities.Form;
+import com.example.demo.entities.ShopCart;
 import com.example.demo.entities.User;
 import com.example.demo.respository.FoodRepository;
 import com.example.demo.respository.FormRepository;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class WebController {
 
     private String userPhone = null;
+    private ArrayList<ShopCart> shopCarts = new ArrayList<>();
 
     @Autowired
     private UserRepository userRepository;
@@ -37,7 +40,9 @@ public class WebController {
     @RequestMapping("index")
     public String index(){
         if (userPhone!=null)
+        {
             return "index";
+        }
         else
             return "login";
     }
@@ -45,6 +50,7 @@ public class WebController {
     @RequestMapping("login")
     public String login(){
         userPhone = null;
+        shopCarts.clear();
         return "login";
     }
 
@@ -207,10 +213,98 @@ public class WebController {
     @ResponseBody
     public ArrayList<Food> rice_food_information(){
         ArrayList<Food> foodArrayList = new ArrayList<>();
-        foodArrayList = foodRepository.findAllByType("米饭");
+        foodArrayList = foodRepository.findAllByType("主食");
         for(int i=0;i<foodArrayList.size();i++)
             System.out.println(foodArrayList.get(i));
         return foodArrayList;
+    }
+
+    //添加商品进购物车
+    @RequestMapping("shopping")
+    public String shopping(@RequestParam(value = "name")String name, @RequestParam(value = "price")double price,
+                           @RequestParam(value = "number")int number){
+        User user = userRepository.findAllByPhone(userPhone);
+        if(user!=null && number>=1){
+            ShopCart shopCart = new ShopCart();
+            shopCart.setPhone(userPhone);
+            shopCart.setUsername(user.getUsername());
+            shopCart.setPrice(price);
+            shopCart.setNumber(number);
+            shopCart.setDestination(user.getDestination());
+            shopCart.setMenu(name);
+            System.out.println(shopCart.toString());
+            shopCarts.add(shopCart);
+        }
+        else
+            return "fail";
+
+        for (int i=0;i<shopCarts.size();i++)
+            System.out.println(shopCarts.get(i));
+
+        return "index";
+    }
+
+    //购物车
+    @RequestMapping("ShopCart")
+    @ResponseBody
+    public ArrayList<ShopCart> pay_for(){
+
+        for (int i=0;i<shopCarts.size();i++)
+            System.out.println(shopCarts.get(i));
+
+        return shopCarts;
+    }
+
+
+    //购物车的处理，支付或者清空
+    @RequestMapping("buyOrDelete")
+    public String buy_or_delete(@RequestParam(value = "select")String select){
+
+        System.out.println(select);
+
+        if (select.equals("支付")){
+            double sum_price=0;
+            String menu = "";
+            Form form = new Form();
+            User user = userRepository.findAllByPhone(userPhone);
+            form.setDestination(user.getDestination());
+            form.setPhone(userPhone);
+            form.setUsername(user.getUsername());
+            for (int i=0;i<shopCarts.size();i++){
+                ShopCart shopCart = new ShopCart();
+                shopCart = shopCarts.get(i);
+                sum_price = sum_price + shopCart.getPrice() * shopCart.getNumber();
+                menu = menu + shopCart.getMenu() + shopCart.getNumber() + "*" + shopCart.getPrice() + "\t";
+            }
+
+            form.setPrice(sum_price);
+            form.setMenu(menu);
+
+            System.out.println(form.toString());
+
+            formRepository.save(form);
+
+            shopCarts.clear();
+
+            return "index";
+        }
+
+        else if(select.equals("清空")){
+            shopCarts.clear();
+            return "index";
+        }
+        else
+            return "fail";
+    }
+
+    //查询订单
+    @RequestMapping("getOrderInformation")
+    @ResponseBody
+    public ArrayList<Form> get_order_information(){
+        ArrayList<Form> formArrayList = new ArrayList<>();
+        formArrayList = formRepository.findAllByPhone(userPhone);
+
+        return formArrayList;
     }
 
     //按菜品的类别查询

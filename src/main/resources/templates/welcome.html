@@ -30,8 +30,8 @@
                 <td>{{food.type}}</td>
                 <td>{{food.price}}</td>
                 <td>
-                    <form name="add_food" action="">
-                        <input type="number" id="number" name="number">
+                    <form name="add_food" action="/menu/shopping">
+                        <input type="number" id="number" name="number" value="1">
                         <input type="text" id="name" name="name" v-model="food.name" hidden>
                         <input type="number" id="price" name="price" v-model="food.price" hidden>
                         <button type="submit">添加至购物车</button>
@@ -44,12 +44,6 @@
 
 
     <script>
-
-        // function submitForm(){
-        //   var form = document.getElementById("check_food");
-        //   form.submit();
-        // };
-
         $(function () {
             $.get("/menu/getFoodInformation", function (data) {
                 console.log(data);
