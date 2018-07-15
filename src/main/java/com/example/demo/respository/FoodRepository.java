@@ -11,4 +11,6 @@ public interface FoodRepository extends CrudRepository<Food, Long> {
     ArrayList<Food> findAll();
 
     ArrayList<Food> findAllByType(String type);
+
+    Food findAllById(int id);
 }

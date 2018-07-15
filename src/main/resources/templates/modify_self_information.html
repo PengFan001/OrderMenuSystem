@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Information</title>
+</head>
+<body>
+
+<div id="Info" v-cloak class="table">
+    <div>
+
+        <form action="/menu/modifySelfInfo">
+            <table border="2" width="100%" style="text-align: center">
+                <tr>
+                    <td>姓名</td>
+                    <td>{{user.username}}</td>
+                    <td>手机号</td>
+                    <td>{{user.phone}}</td>
+                </tr>
+
+                <tr>
+                    <td>收货地址</td>
+                    <td>
+                        <input type="text" v-model="user.destination" id="destination" name="destination" required>
+                    </td>
+                    <td>积分</td>
+                    <td>{{user.points}}</td>
+                </tr>
+
+                <tr>
+                    <td>密码</td>
+                    <td>
+                        <input type="password" id="password" name="password" v-model="user.password" required>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <button type="submit">确认修改</button>
+            <button type="reset">取消</button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    console.log("start");
+    $.get("/menu/getInformation", function (data) {
+
+        console.log(data);
+
+        var app = new Vue({
+            el : '#Info',
+            data : {
+                user : data,
+            }
+        })
+    });
+</script>
+
+</body>
+</html>

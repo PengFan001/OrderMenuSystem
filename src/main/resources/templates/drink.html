@@ -20,7 +20,7 @@
             <td>{{food.price}}</td>
             <td>
                 <form name="add_food" action="/menu/shopping">
-                    <input type="number" id="number" name="number" value="1">
+                    <input type="number" id="number" name="number" value="1" min="1">
                     <input type="text" id="name" name="name" v-model="food.name" hidden>
                     <input type="number" id="price" name="price" v-model="food.price" hidden>
                     <button type="submit">添加至购物车</button>

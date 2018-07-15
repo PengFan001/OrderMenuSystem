@@ -21,11 +21,11 @@
 
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">网上订餐系统</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">网上控制台</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="login">安全登出</a>
+            <a class="nav-link" href="admin">安全登出</a>
         </li>
     </ul>
 </nav>
@@ -36,38 +36,38 @@
             <div class="sidebar-sticky nav">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active"  href="javascript:loadHTML('welcome');">
+                        <a class="nav-link active"  href="javascript:loadHTML('deleteWelcome');">
                             <span data-feather="home"></span>
                             所有菜品
                             <span class="text-normal"></span>
                         </a>
                         <ul>
                             <li>
-                                <a href="javascript:;" onclick="loadHTML('meat')">
+                                <a href="javascript:;" onclick="loadHTML('deleteMeat')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">荤菜</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" onclick="loadHTML('vegetable')">
+                                <a href="javascript:;" onclick="loadHTML('deleteVegetable')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">素菜</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" onclick="loadHTML('drink')">
+                                <a href="javascript:;" onclick="loadHTML('deleteDrink')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">饮料</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" onclick="loadHTML('noodle')">
+                                <a href="javascript:;" onclick="loadHTML('deleteNoodle')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">面食</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" onclick="loadHTML('rice')">
+                                <a href="javascript:;" onclick="loadHTML('deleteRice')">
                                     <b class="sidebar-icon"></b>
                                     <span class="text-normal">主食</span>
                                 </a>
@@ -76,27 +76,15 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('form')">
+                        <a class="nav-link" href="javascript:;" onclick="loadHTML('adminForm')">
                             <span data-feather="file"></span>
                             查询订单
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('shopcart')">
-                            <span data-feather="shopping-cart"></span>
-                            购物车
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('information')">
-                            <span data-feather="users"></span>
-                            我的信息
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" onclick="loadHTML('modify_self_information')">
-                            <span data-feather="users"></span>
-                            修改信息
+                        <a class="nav-link" href="javascript:;" onclick="loadHTML('addFood')">
+                            <span data-feather="file"></span>
+                            添加菜品
                         </a>
                     </li>
                 </ul>
@@ -105,7 +93,7 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             </div>
-            <div class="content" id="myContent" onloadstart="loadHTML('welcome')">
+            <div class="content" id="myContent" onloadstart="loadHTML('deleteWelcome')">
 
             </div>
         </main>
@@ -128,7 +116,7 @@
 <script>
 
     $(document).ready(function(){
-        $('#myContent').load("/menu/welcome");
+        $('#myContent').load("/menu/deleteWelcome");
     });
 
     function loadHTML(url) {
@@ -137,25 +125,6 @@
                 $('#myContent').html(data);
             });
         })
-        //此方法刷新界面无法加载script中的内容
-        // var xmlHttp;
-        // if (window.XMLHttpRequest)
-        // {
-        //     xmlHttp=new XMLHttpRequest();
-        // }
-        // else
-        // {
-        //     xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-        // }
-        // xmlHttp.onreadystatechange=function()
-        // {
-        //     if (xmlHttp.readyState==4 && xmlHttp.status==200)
-        //     {
-        //         document.getElementById("myContent").innerHTML=xmlHttp.responseText;
-        //     }
-        // }
-        // xmlHttp.open("GET",url,true);
-        // xmlHttp.send();
     };
 
 </script>

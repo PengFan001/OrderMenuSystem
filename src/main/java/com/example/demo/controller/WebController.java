@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entities.Food;
-import com.example.demo.entities.Form;
-import com.example.demo.entities.ShopCart;
-import com.example.demo.entities.User;
+import com.example.demo.entities.*;
 import com.example.demo.respository.FoodRepository;
 import com.example.demo.respository.FormRepository;
 import com.example.demo.respository.UserRepository;
@@ -23,6 +20,7 @@ public class WebController {
 
     private String userPhone = null;
     private ArrayList<ShopCart> shopCarts = new ArrayList<>();
+    private String adminAccounts = null;
 
     @Autowired
     private UserRepository userRepository;
@@ -54,15 +52,16 @@ public class WebController {
         return "login";
     }
 
+    @RequestMapping("admin")
+    public String admin(){
+        adminAccounts = null;
+        return "admin_login";
+    }
+
     @RequestMapping("register")
     public String register(){
         userPhone = null;
         return "register";
-    }
-
-    @RequestMapping("welcome")
-    public String menu(){
-        return "welcome";
     }
 
     @RequestMapping("information")
@@ -78,6 +77,21 @@ public class WebController {
     @RequestMapping("form")
     public String form(){
         return "form";
+    }
+
+    @RequestMapping("adminForm")
+    public String admin_form(){
+        return "admin_form";
+    }
+
+    @RequestMapping("addFood")
+    public String addFood(){
+        return "add_food";
+    }
+
+    @RequestMapping("welcome")
+    public String menu(){
+        return "welcome";
     }
 
     @RequestMapping("meat")
@@ -103,6 +117,41 @@ public class WebController {
     @RequestMapping("drink")
     public String drink(){
         return "drink";
+    }
+
+    @RequestMapping("deleteWelcome")
+    public String delete_menu(){
+        return "delete_welcome";
+    }
+
+    @RequestMapping("deleteMeat")
+    public String delete_meat(){
+        return "delete_meat";
+    }
+
+    @RequestMapping("deleteVegetable")
+    public String delete_vegetable(){
+        return "delete_vegetable";
+    }
+
+    @RequestMapping("deleteNoodle")
+    public String delete_noodle(){
+        return "delete_noodle";
+    }
+
+    @RequestMapping("deleteRice")
+    public String delete_rice(){
+        return "delete_rice";
+    }
+
+    @RequestMapping("deleteDrink")
+    public String delete_drink(){
+        return "delete_drink";
+    }
+
+    @RequestMapping("modify_self_information")
+    public String modify_self_information(){
+        return "modify_self_information";
     }
 
     //用户注册
@@ -137,6 +186,18 @@ public class WebController {
             return "login";
     }
 
+    //管理员登录
+    @RequestMapping("adminLogin")
+    public String adminLogin(@RequestParam(value = "accounts")String accounts, @RequestParam(value = "password")String password){
+
+        Worker worker = workerRepository.findAllByAccounts(accounts);
+        adminAccounts = accounts;
+        if (worker.getPassword().equals(password))
+            return "admin_index";
+        else
+            return "admin_login";
+    }
+
     //个人信息
     @RequestMapping("getInformation")
     @ResponseBody
@@ -151,6 +212,24 @@ public class WebController {
         model.addAttribute(user);
 
         return user;
+    }
+
+    //修改个人信息
+    @RequestMapping("modifySelfInfo")
+    public String modifySelfInfo(@RequestParam(value = "password")String password,
+                                 @RequestParam(value = "destination")String destination){
+
+        System.out.println(password + destination);
+
+        if(password!=null && destination!=null){
+            User user = userRepository.findAllByPhone(userPhone);
+            user.setDestination(destination);
+            user.setPassword(password);
+            userRepository.save(user);
+        }
+
+        return "index";
+
     }
 
     //菜品信息
@@ -219,6 +298,44 @@ public class WebController {
         return foodArrayList;
     }
 
+    //添加菜品
+    @RequestMapping("add")
+    public String add_food(@RequestParam(value = "name")String name, @RequestParam(value = "type")String type,
+                           @RequestParam(value = "price")double price){
+        boolean flag = true;
+        Food food = new Food();
+        ArrayList<Food> foodArrayList = foodRepository.findAll();
+
+        //判断该菜品是否已经存在
+        for(int i=0;i<foodArrayList.size();i++){
+            Food find = foodArrayList.get(i);
+            if(find.getName().equals(name)){
+                flag = false;
+                break;
+            }
+        }
+        if (flag){
+            food.setName(name);
+            food.setType(type);
+            food.setPrice(price);
+            foodRepository.save(food);
+        }
+        else {
+            return "fail";
+        }
+
+        return "admin_index";
+    }
+
+    //删除菜品
+    @RequestMapping("delete_food")
+    public String delete_food(@RequestParam(value = "id")int id){
+        Food food = foodRepository.findAllById(id);
+        foodRepository.delete(food);
+
+        return "admin_index";
+    }
+
     //添加商品进购物车
     @RequestMapping("shopping")
     public String shopping(@RequestParam(value = "name")String name, @RequestParam(value = "price")double price,
@@ -282,7 +399,13 @@ public class WebController {
 
             System.out.println(form.toString());
 
+            //将生成的订单存入数据库中
             formRepository.save(form);
+
+            //每购买一次订单获得相应的积分、并更新用户个人信息
+            int points = (int) (sum_price * 10);
+            user.setPoints(points);
+            userRepository.save(user);
 
             shopCarts.clear();
 
@@ -307,41 +430,55 @@ public class WebController {
         return formArrayList;
     }
 
-    //按菜品的类别查询
-    @RequestMapping("checkFoodByType")
+
+    //管理员查询订单
+    @RequestMapping("adminGetOrderInformation")
     @ResponseBody
-    public ArrayList<Food> check_food_by_type(@RequestParam(value = "type")String type){
-        ArrayList<Food> foodArrayList = new ArrayList<>();
-        String checkType;//依据菜品种类查询菜品
+    public ArrayList<Form> admin_get_order_information(){
+        ArrayList<Form> formArrayList = new ArrayList<>();
+        formArrayList = formRepository.findAll();
 
-        System.out.println(type);
-        if(type.equals("all")){
-            foodArrayList = foodRepository.findAll();
-            for(int i=0;i<foodArrayList.size();i++)
-                System.out.println(foodArrayList.get(i));
-        }
-        else {
-
-            if(type.equals("meat"))
-                checkType = "荤菜";
-            else if(type.equals("vegetable"))
-                checkType = "素菜";
-            else if (type.equals("drink"))
-                checkType = "饮料";
-            else if (type.equals("noodle"))
-                checkType = "面食";
-            else if (type.equals("rice"))
-                checkType = "主食";
-            else
-                checkType = null;
-
-            System.out.println(checkType);
-            foodArrayList = foodRepository.findAllByType(checkType);
-            for(int i=0;i<foodArrayList.size();i++)
-                System.out.println(foodArrayList.get(i));
-        }
-
-        return foodArrayList;
+        return formArrayList;
     }
+
+
+
+
+//    //按菜品的类别查询
+//    @RequestMapping("checkFoodByType")
+//    @ResponseBody
+//    public ArrayList<Food> check_food_by_type(@RequestParam(value = "type")String type){
+//        ArrayList<Food> foodArrayList = new ArrayList<>();
+//        String checkType;//依据菜品种类查询菜品
+//
+//        System.out.println(type);
+//        if(type.equals("all")){
+//            foodArrayList = foodRepository.findAll();
+//            for(int i=0;i<foodArrayList.size();i++)
+//                System.out.println(foodArrayList.get(i));
+//        }
+//        else {
+//
+//            if(type.equals("meat"))
+//                checkType = "荤菜";
+//            else if(type.equals("vegetable"))
+//                checkType = "素菜";
+//            else if (type.equals("drink"))
+//                checkType = "饮料";
+//            else if (type.equals("noodle"))
+//                checkType = "面食";
+//            else if (type.equals("rice"))
+//                checkType = "主食";
+//            else
+//                checkType = null;
+//
+//            System.out.println(checkType);
+//            foodArrayList = foodRepository.findAllByType(checkType);
+//            for(int i=0;i<foodArrayList.size();i++)
+//                System.out.println(foodArrayList.get(i));
+//        }
+//
+//        return foodArrayList;
+//    }
 
 }

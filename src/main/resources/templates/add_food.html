@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加菜品</title>
+</head>
+<body>
+    <div>
+        <form action="/menu/add">
+            <div class="form1">
+                <p class="p-input pos">
+                    <input type="text" id="name" name="name" placeholder="菜品名" required autofocuso>
+                </p>
+                <p>菜品类型：
+                    <select name="type">
+                        <option value="荤菜">荤菜</option>
+                        <option value="素菜">素菜</option>
+                        <option value="面食">面食</option>
+                        <option value="主食">主食</option>
+                        <option value="饮料">饮料</option>
+                    </select>
+                </p>
+                <p class="p-input pos">
+                    <input type="number" id="price" name="price" required placeholder="价格">
+                </p>
+            </div>
+            <button type="submit">添加</button>
+            <button type="reset">取消</button>
+        </form>
+    </div>
+
+</body>
+</html>

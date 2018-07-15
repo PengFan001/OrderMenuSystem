@@ -7,4 +7,6 @@ import java.util.ArrayList;
 
 public interface FormRepository extends CrudRepository<Form, Long> {
     ArrayList<Form> findAllByPhone(String phone);
+    Form findAllById(int id);
+    ArrayList<Form> findAll();
 }
