@@ -149,6 +149,11 @@ public class WebController {
         return "delete_drink";
     }
 
+    @RequestMapping("modifyFood")
+    public String modify_food(){
+        return "modify_food";
+    }
+
     @RequestMapping("modify_self_information")
     public String modify_self_information(){
         return "modify_self_information";
@@ -332,6 +337,16 @@ public class WebController {
     public String delete_food(@RequestParam(value = "id")int id){
         Food food = foodRepository.findAllById(id);
         foodRepository.delete(food);
+
+        return "admin_index";
+    }
+
+    //修改菜品
+    @RequestMapping("modify_food")
+    public String modify_food(@RequestParam(value = "price")double price, @RequestParam(value = "id")int id){
+        Food food = foodRepository.findAllById(id);
+        food.setPrice(price);
+        foodRepository.save(food);
 
         return "admin_index";
     }
